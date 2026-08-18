@@ -15,6 +15,11 @@ https://final-project-essay-assessment-proj.vercel.app/
 **Deployment:** Flask + Vercel
 
 ##GROUP MEMBERS
+- Adama Baba - 79532028
+- Marfo Mavis - 47492028
+- Mariam Goge Kessa - 30682027
+- Boniphace  Benjamin Makoga - 75052028
+
 
 
 ### Live Demo
