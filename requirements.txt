@@ -1,0 +1,23 @@
+Flask>=3.0
+Werkzeug>=3.0
+joblib>=1.3
+numpy>=1.24
+pandas>=2.0
+
+# IMPORTANT: pin this to the exact version printed by the export cell in the
+# notebook. joblib models are not guaranteed to load across scikit-learn
+# versions; a mismatch produces an InconsistentVersionWarning at best and a
+# silent behaviour change or hard failure at worst.
+scikit-learn==1.6.1
+
+textstat>=0.7
+
+# Optional — feedback layer only. The app scores essays without these, and
+# omits the corresponding metrics if they are unavailable.
+nltk>=3.8
+spacy>=3.7
+language-tool-python>=3.4
+
+# Document reading
+python-docx>=1.1
+pypdf>=4.0
