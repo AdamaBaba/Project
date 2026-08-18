@@ -311,6 +311,21 @@ Strengths Improvements Recommendations Statistics
 
 text USER | v Flask Web Interface | +----------+----------+ | | v v Pasted Essay File Upload PDF/DOCX/TXT | | +----------+----------+ | v Text Extraction | v Essay Analyzer | v Feature Creation | v Feature Scaling | v Gradient Boosting Model | v Score Prediction | +----------------+ | | v v Feedback Service Result Page | | +----------------+ | v User Result
 
+## Project Structure
+Essay2/
+│
+├── app.py          
+├── predictor.py
+├── document_reader.py
+├── feature_extractor.py
+├── feedback.py
+├── export_model.py
+├── models/
+├── static/
+├── templates/
+│   └── index.html
+└── .venv/
+
 
 # Essay Scoring & NLP Feedback Interface
 A user uploads one or more essays and receives a predicted score plus
