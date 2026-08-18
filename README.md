@@ -1,382 +1,253 @@
-Final Project-Essay Assessment Project
+# AI Essay Assessment System
+
+An AI-based essay scoring and NLP feedback web application developed for the **CS 254 — Introduction to Artificial Intelligence Final Project** at **Ashesi University**.
+
+The system allows users to upload one or more essays and receive a predicted score from **1–6**, together with linguistic statistics and rule-based feedback.
+
+## Group Members
+
+- Adama Baba - 79532028
+- Marfo Mavis - 47492028
+- Mariam Goge Kessa - 30682027
+- Boniphace Benjamin Makoga - 75052028
+
+## Live Application
 
 https://final-project-essay-assessment-proj.vercel.app/
 
-AI Essay Assessment System
-CS 254 — Introduction to Artificial Intelligence Final Project
+## What the Application Does
 
-Project: AI-Based Essay Assessment System Course: CS 254 — Introduction to Artificial Intelligence Institution: Ashesi University Primary AI Technique: Machine Learning Regression Best Model: Gradient Boosting Regressor Dataset: Automated Student Assessment Prize (ASAP2) Deployment: Flask + Vercel
+Users can:
 
-##GROUP MEMBERS
+1. Upload one or multiple essays.
+2. Upload `.txt`, `.docx`, or `.pdf` files.
+3. Receive a predicted essay score from **1–6**.
+4. View linguistic and structural measurements.
+5. Receive strengths, weaknesses, and suggestions for improvement.
 
-Adama Baba - 79532028
-Marfo Mavis - 47492028
-Mariam Goge Kessa - 30682027
-Boniphace Benjamin Makoga - 75052028
-Live Demo
+The system is designed as a **decision-support tool** and not as a replacement for human academic judgment.
 
-Essay Assessment System: https://final-project-essay-assessment-proj.vercel.app/
+## AI Technique
 
-1. Project Overview
+The essay scoring task is treated as a **supervised machine-learning regression problem** because the system predicts a numerical score between 1 and 6.
 
-The AI Essay Assessment System is a machine learning-based web application designed to assist lecturers and educators in assessing student essays and applications.
+The project compared:
 
-The system accepts an essay either by:
+- Linear/Ridge Regression
+- Random Forest Regression
+- Gradient Boosting Regression
 
-Pasting the essay directly into the website
-Uploading a .txt file
-Uploading a .pdf file
-Uploading a .docx file
+**Gradient Boosting Regression** was selected as the deployed model because it achieved the best overall performance among the tested models.
 
-The system then extracts and analyzes the essay, generates numerical linguistic features, predicts an assessment score from 1 to 6, and provides automated feedback about the essay's strengths, weaknesses, vocabulary, structure, readability, and areas for improvement.
+## Dataset
 
-The system is intended as a decision-support tool for lecturers, rather than a replacement for human academic judgment.
+The project uses the **Automated Student Assessment Prize (ASAP2)** dataset, which contains student essays and human-assigned scores.
 
-2. Real-World Problem
+The processed dataset contains approximately **24,728 essay records**.
 
-Essay assessment can be time-consuming for lecturers, particularly when large numbers of student scripts must be reviewed. Manual assessment also requires consistent attention to writing quality, organization, vocabulary, and other characteristics.
+The score distribution is imbalanced, with scores around 2–4 occurring more frequently than scores at the extremes. This is considered when interpreting the model's performance.
 
-The project explores whether machine learning can assist with the initial assessment of essays by predicting a score based on measurable linguistic and structural features.
+## Features Used for Scoring
 
-Target Users
+The deployed model uses numerical linguistic and structural features extracted from each essay, including:
 
-The primary stakeholder is:
+- Word count
+- Character count
+- Sentence count
+- Average sentence length
+- Unique word count
+- Vocabulary richness
+- Paragraph count
+- Other engineered numerical features used by the trained model
 
-educators
-Lectures
+The essay is converted into numerical features before being passed to the trained Gradient Boosting model.
 
-Potential secondary users include:
+## NLP and Feedback Analysis
 
-Teaching assistants
-Academic departments
-Students seeking formative feedback
-Educational institutions
-Admission essay applications for University etc.
+The application also performs additional NLP analysis to provide feedback.
 
-The system is designed primarily to support lecturers by providing an additional automated assessment signal and structured feedback.
+The feedback layer uses:
 
-3. Project Objectives; The main objectives are to.
-Develop a working AI-based essay assessment prototype.
-Train machine-learning models using the ASAP2 essay dataset.
-Extract meaningful linguistic and structural features from essays.
-Compare multiple regression models.
-Select the best-performing model for deployment.
-Generate automated feedback that helps identify strengths and weaknesses.
-Deploy the working prototype as a publicly accessible web application.
-Evaluate the system using appropriate machine-learning metrics.
-Analyze ethical risks including bias, fairness, privacy, and transparency.
-4. AI Technique
+- **spaCy** for POS tagging and named-entity recognition
+- **NLTK** for lexical diversity measures such as TTR and MATTR
+- **LanguageTool** for grammar checking
 
-The project uses Supervised machine learning regression.
+The system can display:
 
-The essay assessment problem is treated as a regression task because the model predicts a numerical score between 1 and 6.
+- Word and sentence counts
+- Readability measures
+- Lexical diversity
+- POS counts
+- Named entities
+- Grammar errors
+- Spelling errors
+- Vocabulary information
+- Sentence development
+- Strengths
+- Weaknesses
+- Suggestions for improvement
 
-The project experimented with:
+These NLP feedback features are primarily used for analysis and feedback and are **not all inputs to the scoring model**.
 
-Linear Regression
-Random Forest Regression
-Gradient Boosting Regression
+If some optional NLP tools are unavailable, the application can still return the essay score while omitting the affected feedback metrics.
 
-The models were implemented using Python and scikit-learn.
+## Model Performance
 
-Selected Model
-
-Gradient Boosting Regression achieved the strongest overall performance among the tested models and was therefore selected for the deployed prototype.
-
-5. Dataset
-
-The project uses the ASAP2 Automated Student Assessment Prize dataset.
-
-The dataset contains student essays together with human-assigned scores.
-
-The processed dataset used in the project contains:
-
-24,728 essay records
-
-The score distribution was:
-
-ScoreNumber of Essays	
-1	1,751
-2	6,847
-3	9,021
-4	5,553
-5	1,356
-6	200
-
-The distribution is not balanced. In particular, scores 2–4 are much more common than scores 1, 5, and 6.
-
-This imbalance is considered in the interpretation of the model's results and ethical analysis.
-
-6. Feature Engineering
-
-Instead of directly feeding the complete essay into the regression model, the system extracts numerical linguistic and structural features.
-
-The deployed model uses:
-
-word_count
-character_count
-sentence_count
-avg_sentence_length
-unique_word_count
-vocabulary_richness
-paragraph_count
-
-These features attempt to represent measurable characteristics of essay structure and language.
-
-The features are created by the essay_analyzer.py service.
-
-Before prediction, the feature values are transformed using the trained regression scaler.
-
-7. Machine Learning Pipeline
-
-The overall pipeline is:
-
-ASAP2 Dataset
-      |
-      v
-Data Cleaning
-      |
-      v
-Feature Engineering
-      |
-      v
-Train/Test Data
-      |
-      +---------------------+
-      |                     |
-      v                     v
-Linear Regression     Random Forest
-      |                     |
-      +----------+----------+
-                 |
-                 v
-        Gradient Boosting
-                 |
-                 v
-       Model Evaluation
-                 |
-                 v
-       Select Best Model
-                 |
-                 v
-       Save Trained Model
-                 |
-                 v
-          Flask Website
-                 |
-                 v
-          Essay Submitted
-                 |
-                 v
-       Feature Extraction
-                 |
-                 v
-       Gradient Boosting
-                 |
-                 v
-       Predicted Score 1–6
-                 |
-                 v
-       Automated Feedback
-
-8. Model Evaluation
-
-Three regression models were evaluated using:
-
-Mean Absolute Error (MAE)
-Mean Squared Error (MSE)
-Root Mean Squared Error (RMSE)
-R² Score
-Results
-ModelMAEMSERMSER²				
-Linear Regression	0.5255	0.4763	0.6901	0.5561
-Random Forest	0.5131	0.4549	0.6744	0.5761
-Gradient Boosting	0.5006	0.4326	0.6577	0.5968
-Interpretation
-
-Gradient Boosting produced the lowest MAE, MSE, and RMSE and the highest R² among the three tested models.
-
-Its MAE of 0.5006 means that, on average, the predicted score differs from the actual score by approximately half a point.
-
-The R² value of 0.5968 indicates that the model explains approximately 59.68% of the variance in the target scores within the evaluated dataset.
-
-Because Gradient Boosting performed best among the tested models, it was selected for the deployed application.
-
-9. Feedback Generation
-
-In addition to numerical scoring, the system generates structured feedback.
-
-The feedback service analyzes:
-
-Structure
-Paragraph organization
-Sentence development
-Introduction indicators
-Conclusion indicators
-Vocabulary
-Number of unique words
-Vocabulary diversity
-Frequently repeated words
-Readability
-
-The system calculates an approximate Flesch Reading Ease score.
-
-Writing Quality
-
-The system evaluates:
-
-Average sentence length
-Vocabulary diversity
-Sentence development
-Final Feedback
-
-The system produces:
-
-Overall assessment
-Strengths
-Areas for improvement
-Recommendations
-Essay statistics
-Repeated-word information
-
-The feedback is rule-based and complements the machine-learning score.
-
-10. Web Application
-
-The prototype is implemented using Flask.
-
-Supported input methods
-1. Pasted text
-
-The user can paste the complete essay directly into the website.
-
-2. TXT
-
-The system extracts text from .txt files.
-
-3. PDF
-
-The system uses pypdf to extract text from PDF documents.
-
-4. DOCX
-
-The system uses python-docx to extract text from Microsoft Word documents.
-
-11. Example Usage
-
-A typical workflow is:
-
-text
-
-Open the Essay Assessment System.
-Paste an essay or upload a supported file.
-Click the assessment button.
-The application extracts the essay text.
-Linguistic features are calculated.
-The trained Gradient Boosting model predicts a score.
-The feedback service analyzes the essay.
-The result page displays the score and feedback.
-
-Example:
-
-Input: Student essay
-
-   ↓
-
-
-Feature Extraction
-
-word_count character_count sentence_count average_sentence_length unique_word_count vocabulary_richness paragraph_count
-
-   ↓
-
-
-Gradient Boosting Model
-
-   ↓
-
-
-Predicted Score
-
-Example: 4.32 / 6
-
-   ↓
-
-
-Feedback
-
-Strengths Improvements Recommendations Statistics
-
-12. System Architecture
-
-text USER | v Flask Web Interface | +----------+----------+ | | v v Pasted Essay File Upload PDF/DOCX/TXT | | +----------+----------+ | v Text Extraction | v Essay Analyzer | v Feature Creation | v Feature Scaling | v Gradient Boosting Model | v Score Prediction | +----------------+ | | v v Feedback Service Result Page | | +----------------+ | v User Result
-
-## Project Structure
-Essay2/
-│
-├── app.py          
-├── predictor.py
-├── document_reader.py
-├── feature_extractor.py
-├── feedback.py
-├── export_model.py
-├── models/
-├── static/
-├── templates/
-│   └── index.html
-└── .venv/
-
-
-# Essay Scoring & NLP Feedback Interface
-A user uploads one or more essays and receives a predicted score plus
-rule-based written feedback.
-
-## What the application does
-
-1. Upload one or many essays (`.txt`, `.docx`, `.pdf`).
-2. Get a predicted score from 1–6.
-3. See the linguistic measurements behind it — word and sentence counts,
-   readability indices, lexical diversity, POS counts, named entities, grammar
-   and spelling issue counts.
-4. Receive strengths, weaknesses and suggestions derived from those
-   measurements.
-
-
-**Feedback layer** — spaCy POS/NER, NLTK lexical diversity (TTR, MATTR) and
-LanguageTool grammar checking. These are computed for display and for the
-feedback rules. **None of them are inputs to the scoring model.** If spaCy or
-LanguageTool is unavailable, the app still returns a score and omits the
-affected metrics rather than failing.
-
-### Why Gradient Boosting
-
-Test-set comparison from the notebook (24-feature version):
+The models were evaluated using MSE, MAE, R², Accuracy, and Quadratic Weighted Kappa (QWK).
 
 | Model | MSE | MAE | R² | Accuracy | QWK |
-|---|---|---|---|---|---|
-| Gradient Boosting | 0.4006 | 0.4801 | 0.6239 | 0.6243 | 0.7387 |
+|---|---:|---:|---:|---:|---:|
+| **Gradient Boosting** | **0.4006** | **0.4801** | **0.6239** | **0.6243** | **0.7387** |
 | Random Forest | 0.4124 | 0.4867 | 0.6128 | 0.6128 | 0.7331 |
 | Ridge | 0.4314 | 0.4995 | 0.5950 | 0.5948 | 0.7157 |
 
-Gradient Boosting wins on every metric, though the margin over Random Forest is
-small (about 0.006 QWK). Describe it as the best of the three.
-## Setup
+Gradient Boosting achieved the strongest results across the reported metrics and was therefore selected for deployment.
 
-```bash
-python -m venv .venv
-```
+## Application Workflow
 
-Windows: `.venv\Scripts\activate` — macOS/Linux: `source .venv/bin/activate`
+    Essay Upload
+         ↓
+    Text Extraction
+         ↓
+    Feature Extraction
+         ↓
+    Feature Scaling
+         ↓
+    Gradient Boosting Model
+         ↓
+    Predicted Score (1–6)
+         ↓
+    NLP Analysis
+         ↓
+    Feedback Generation
+         ↓
+    Results Display
 
-```bash
-pip install -r requirements.txt
-python -m spacy download en_core_web_sm
-python -c "import nltk; nltk.download('punkt'); nltk.download('punkt_tab')"
-```
-## Run
+## Supported File Types
 
-```bash
-python app.py
-```
-Then open `http://127.0.0.1:5000`.
+- `.txt`
+- `.pdf`
+- `.docx`
 
+Multiple essays can be uploaded at the same time.
+
+## Project Structure
+
+    Essay2/
+    │
+    ├── app.py
+    ├── predictor.py
+    ├── document_reader.py
+    ├── feature_extractor.py
+    ├── feedback.py
+    ├── export_model.py
+    ├── requirements.txt
+    ├── README.md
+    ├── vercel.json
+    │
+    ├── models/
+    │   └── trained model files
+    │
+    ├── static/
+    │   ├── style.css
+    │   └── app.js
+    │
+    ├── templates/
+    │   └── index.html
+    │
+    └── notebooks/
+        └── project notebooks
+
+## Setup and Running the Application
+
+Create and activate a virtual environment, install the required packages and NLP resources, then run the Flask application.
+
+### Windows
+
+    python -m venv .venv
+    .venv\Scripts\activate
+    pip install -r requirements.txt
+    python -m spacy download en_core_web_sm
+    python -c "import nltk; nltk.download('punkt'); nltk.download('punkt_tab')"
+    python app.py
+
+Then open:
+
+    http://127.0.0.1:5000
+
+### macOS/Linux
+
+    python3 -m venv .venv
+    source .venv/bin/activate
+    pip install -r requirements.txt
+    python -m spacy download en_core_web_sm
+    python -c "import nltk; nltk.download('punkt'); nltk.download('punkt_tab')"
+    python app.py
+
+Then open:
+
+    http://127.0.0.1:5000
+
+## Deployment
+
+The application is deployed as a Flask web application and made publicly accessible through Vercel.
+
+**Live Demo:**  
+https://final-project-essay-assessment-proj.vercel.app/
+
+## Ethical Considerations
+
+### Fairness and Bias
+
+The model is trained using essays and human-assigned scores, so biases present in the training data or human scoring may affect predictions.
+
+The dataset also has an imbalanced score distribution, meaning the model may perform differently across different score ranges.
+
+The system should therefore be used as an assessment aid rather than an autonomous grading system.
+
+### Privacy
+
+Essays may contain personal information. Users should avoid submitting unnecessary personally identifiable information.
+
+A production version would require stronger privacy and security measures such as authentication, encryption, access controls, and appropriate data-retention policies.
+
+### Human Oversight
+
+The predicted score should not be treated as an unquestionable final grade. Lecturers should review the original essay and make the final academic decision.
+
+## Future Improvements
+
+Possible future improvements include:
+
+- More advanced NLP features
+- Transformer-based models
+- Semantic embeddings
+- Better handling of score imbalance
+- More extensive hyperparameter tuning
+- Fairness evaluation across linguistic groups
+- Lecturer dashboards
+- Authentication and secure student data storage
+- Explainable AI and feature-importance analysis
+- Prediction confidence or uncertainty estimates
+
+## Project Status
+
+**Completed Prototype**
+
+The system currently supports:
+
+- Machine-learning essay scoring
+- Gradient Boosting prediction
+- TXT, PDF, and DOCX uploads
+- Multiple essay uploads
+- NLP analysis
+- Grammar and spelling analysis
+- Linguistic statistics
+- Automated feedback
+- Flask web application
+- Vercel deployment
+- Public live demo
+
+## Disclaimer
+
+The predicted score is an AI-generated estimate and should not replace human academic assessment. The system is intended to support lecturers and provide additional feedback on student writing.
