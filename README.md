@@ -30,7 +30,7 @@ https://final-project-essay-assessment-proj.vercel.app/
 
 # 1. Project Overview
 
-The AI Essay Assessment System is a machine-learning-based web application designed to assist lecturers and educators in assessing student essays and applications.
+The AI Essay Assessment System is a machine learning-based web application designed to assist lecturers and educators in assessing student essays and applications.
 
 The system accepts an essay either by:
 
